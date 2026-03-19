@@ -34,6 +34,8 @@
 
 > 💡 **推荐**：将生成的 SQLite 数据库集成到 `Claude Code` 等 AI 工具进行代码审计，结构化数据可使 AI 分析效率大幅提升
 
+> 🤖 **AI 用户必读**：[DATABASE.md](DATABASE.md) 包含完整的数据库表结构与字段说明，请在使用 AI 分析数据库前将该文件提供给 AI 作为上下文参考
+
 ## ✨ 特性亮点
 
 - 🚀 **完整方法调用图** — 追踪所有 `invoke*` 指令（含 Lambda/方法引用），构建精确的 caller → callee 调用关系
@@ -482,6 +484,8 @@ java -jar jar-analyzer-engine.jar \
 ## 🤖 与 AI 集成进行代码审计
 
 生成的 SQLite 数据库天然适合与 AI 工具结合使用，以下是推荐的工作流：
+
+> 📄 数据库完整表结构请参阅 [DATABASE.md](DATABASE.md)，建议将该文件作为 AI 的上下文输入
 
 ### 使用 Claude Code
 

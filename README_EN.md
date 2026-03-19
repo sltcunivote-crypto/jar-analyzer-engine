@@ -32,6 +32,8 @@ The engine is built on the **ASM bytecode analysis framework** and uses a **mult
 
 > 💡 **Recommended**: Integrate the generated SQLite database with AI tools such as `Claude Code` for code auditing — structured data can significantly boost AI analysis efficiency.
 
+> 🤖 **AI Users**: See [DATABASE.md](DATABASE.md) for the complete database schema and field descriptions — feed this file to your AI assistant as context before querying the database.
+
 ## ✨ Key Features
 
 - 🚀 **Complete Method Call Graph** — Tracks all `invoke*` instructions (including Lambda/method references), building precise caller → callee relationships
@@ -483,6 +485,8 @@ java -jar jar-analyzer-engine.jar \
 ## 🤖 AI Integration for Code Auditing
 
 The generated SQLite database is naturally suited for use with AI tools. Here is the recommended workflow:
+
+> 📄 For the complete database schema, see [DATABASE.md](DATABASE.md) — it is recommended to feed this file as context to your AI assistant.
 
 ### Using Claude Code
 
