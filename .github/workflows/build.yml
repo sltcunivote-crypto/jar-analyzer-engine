@@ -35,6 +35,7 @@ jobs:
 
       - name: copy jar
         run: |
+          New-Item -ItemType Directory -Force -Path "release"
           Copy-Item "target\jar-analyzer-engine-${{ env.VERSION }}-jar-with-dependencies.jar" -Destination "release\jar-analyzer-engine-${{ env.VERSION }}.jar"
         working-directory: jar-analyzer
 
