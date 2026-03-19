@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  A Java bytecode analysis engine that parses JAR files into a SQLite database for security auditing and code analysis (AI-friendly)
+  Java 字节码分析引擎，将 JAR 文件解析 SQLite 数据库，用于安全审计代码分析（AI 友好）
 </p>
 
 <p align="center">
@@ -20,40 +20,40 @@
 
 ---
 
-> [中文文档](README_CN.md)
+> [English Version](README.md)
 
-## 📖 Introduction
+## 📖 简介
 
-**Jar Analyzer Engine** is the **core engine** of [jar-analyzer](https://github.com/jar-analyzer/jar-analyzer), a Java bytecode security analysis GUI tool. It has been extracted as a standalone command-line tool and programming library.
+**Jar Analyzer Engine** 是 Java 字节码安全分析 GUI 工具 [jar-analyzer](https://github.com/jar-analyzer/jar-analyzer) 的**核心引擎**，现已独立提取为可单独使用的命令行工具和编程库。
 
-> The `jar-analyzer` project has been continuously updated for `5` years with `58` releases — mature, stable, and production-ready.
+> `jar-analyzer` 项目连续 `5` 年更新，共发布 `58` 个版本，成熟稳定可用
 
-The engine is built on the **ASM bytecode analysis framework** and uses a **multi-stage pipeline architecture** to automatically perform class discovery, method call graph construction, inheritance analysis, string extraction, Spring route identification, JavaWeb component detection, and more. All results are output as a **structured SQLite database**.
+引擎基于 **ASM 字节码分析框架**，采用**多阶段流水线架构**，自动完成类发现、方法调用图构建、继承关系分析、字符串提取、Spring 路由识别、JavaWeb 组件识别等工作，并将所有结果输出为**结构化的 SQLite 数据库**。
 
-> 💡 **Recommended**: Integrate the generated SQLite database with AI tools such as `Claude Code` for code auditing — structured data can significantly boost AI analysis efficiency.
+> 💡 **推荐**：将生成的 SQLite 数据库集成到 `Claude Code` 等 AI 工具进行代码审计，结构化数据可使 AI 分析效率大幅提升
 
-## ✨ Key Features
+## ✨ 特性亮点
 
-- 🚀 **Complete Method Call Graph** — Tracks all `invoke*` instructions (including Lambda/method references), building precise caller → callee relationships
-- 🧬 **Inheritance Analysis** — Recursively builds the full inheritance tree, automatically adding overridden methods to the call graph to solve polymorphism analysis challenges
-- 🌱 **Spring MVC Recognition** — Automatically identifies Controllers and parses `@RequestMapping` family annotations, extracting complete URL paths
-- 🌐 **JavaWeb Component Discovery** — Identifies Servlets, Filters, Listeners, and HandlerInterceptors
-- 📝 **String Constant Extraction** — Extracts strings from method body `LDC` instructions and annotations (SQL, URLs, keys, and other sensitive information)
-- ⚡ **Quick Mode** — Analyzes only class structure and method calls, skipping time-consuming analysis stages for rapid overview
-- 📦 **Spring Boot / WAR Support** — Nested JAR parsing and class name correction, perfectly adapted for Fat JARs
-- 🛡️ **Security Protection** — Built-in Zip Slip path traversal attack defense with automatic error tolerance for corrupted class files
-- 🔌 **Dual-Mode Usage** — Works as both a standalone CLI tool and an embeddable Java library
+- 🚀 **完整方法调用图** — 追踪所有 `invoke*` 指令（含 Lambda/方法引用），构建精确的 caller → callee 调用关系
+- 🧬 **继承关系分析** — 递归构建完整继承树，自动将子类 Override 方法加入调用图，解决多态分析难题
+- 🌱 **Spring MVC 识别** — 自动识别 Controller、解析 `@RequestMapping` 家族注解，提取完整 URL 路径
+- 🌐 **JavaWeb 组件发现** — 识别 Servlet、Filter、Listener、HandlerInterceptor
+- 📝 **字符串常量提取** — 从方法体 `LDC` 指令和注解中提取字符串（SQL、URL、密钥等敏感信息）
+- ⚡ **快速模式** — 仅分析类结构和方法调用，跳过耗时分析，适合快速摸底
+- 📦 **Spring Boot / WAR 支持** — 嵌套 JAR 解析、类名修正，完美适配 Fat JAR
+- 🛡️ **安全防护** — 内置 Zip Slip 路径穿越攻击防御，损坏类文件自动容错
+- 🔌 **双模式使用** — 既可作为 CLI 工具独立运行，也可作为 Java 库集成到项目中
 
-## 🚀 Quick Start
+## 🚀 快速开始
 
-### Requirements
+### 环境要求
 
-| Dependency | Version |
-|------------|---------|
-| Java (JDK/JRE) | **8** or higher |
-| Maven (build only) | 3.6+ |
+| 依赖 | 版本要求 |
+|------|----------|
+| Java (JDK/JRE) | **8** 或更高 |
+| Maven（仅构建时） | 3.6+ |
 
-### Build
+### 构建
 
 ```bash
 git clone https://github.com/jar-analyzer/jar-analyzer-engine.git
@@ -61,72 +61,72 @@ cd jar-analyzer-engine
 mvn clean package -DskipTests
 ```
 
-The build artifact is a fat jar (with all dependencies included), located at `target/jar-analyzer-engine-1.0.0-jar-with-dependencies.jar`.
+构建产物为 fat jar（包含所有依赖），位于 `target/jar-analyzer-engine-1.0.0-jar-with-dependencies.jar`。
 
-### Basic Usage
+### 基本用法
 
 ```bash
-# Analyze a single JAR file
+# 分析单个 JAR 文件
 java -jar jar-analyzer-engine.jar --jar /path/to/app.jar
 
-# Analyze all JARs in a directory
+# 分析目录下所有 JAR
 java -jar jar-analyzer-engine.jar --jar /path/to/libs/
 
-# Specify output database path
+# 指定输出数据库路径
 java -jar jar-analyzer-engine.jar --jar /path/to/app.jar --db output.db
 ```
 
-After analysis, a SQLite database file (default: `jar-analyzer.db`) will be generated and can be queried with any SQLite client tool.
+分析完成后将生成 SQLite 数据库文件（默认为 `jar-analyzer.db`），可使用任何 SQLite 客户端工具查询。
 
-## 📋 Command-Line Arguments
+## 📋 命令行参数
 
-### Required Arguments
+### 必填参数
 
-| Argument | Short | Description |
-|----------|-------|-------------|
-| `--jar <path>` | `-j` | **Required**. Path to the JAR/WAR file or directory containing JARs to analyze |
+| 参数 | 缩写 | 说明 |
+|------|------|------|
+| `--jar <path>` | `-j` | **必填**。待分析的 JAR/WAR 文件或包含 JAR 的目录路径 |
 
-### Optional Arguments
+### 可选参数
 
-| Argument | Short | Default | Description |
-|----------|-------|---------|-------------|
-| `--db <path>` | `-d` | `jar-analyzer.db` | Output SQLite database file path |
-| `--temp <path>` | `-t` | `jar-analyzer-temp` | Temporary extraction directory path |
-| `--rt <path>` | — | None | Path to rt.jar for including JDK standard classes in the analysis |
-| `--quick` | `-q` | `false` | Enable quick mode |
-| `--fix-class` | — | `false` | Enable class name correction mode |
-| `--inner-jars` | — | `false` | Parse nested JARs within JARs |
-| `--no-fix-impl` | — | `false` | Disable automatic method implementation correction |
-| `--black-list <text>` | `-b` | None | Class/package blacklist (inline text) |
-| `--white-list <text>` | `-w` | None | Class/package whitelist (inline text) |
-| `--black-list-file <file>` | — | None | Read blacklist from file |
-| `--white-list-file <file>` | — | None | Read whitelist from file |
-| `--help` | `-h` | — | Display help information |
+| 参数 | 缩写 | 默认值 | 说明 |
+|------|------|--------|------|
+| `--db <path>` | `-d` | `jar-analyzer.db` | 输出 SQLite 数据库文件路径 |
+| `--temp <path>` | `-t` | `jar-analyzer-temp` | 临时解压目录路径 |
+| `--rt <path>` | — | 无 | rt.jar 路径，附加 JDK 标准类进行分析 |
+| `--quick` | `-q` | `false` | 启用快速模式 |
+| `--fix-class` | — | `false` | 启用类名修正模式 |
+| `--inner-jars` | — | `false` | 解析 JAR 中嵌套的 JAR |
+| `--no-fix-impl` | — | `false` | 禁用方法实现自动修正 |
+| `--black-list <text>` | `-b` | 无 | 类/包黑名单（内联文本） |
+| `--white-list <text>` | `-w` | 无 | 类/包白名单（内联文本） |
+| `--black-list-file <file>` | — | 无 | 从文件读取黑名单 |
+| `--white-list-file <file>` | — | 无 | 从文件读取白名单 |
+| `--help` | `-h` | — | 显示帮助信息 |
 
-## 📚 Argument Details
+## 📚 参数详解
 
-### `--jar` / `-j` (Required)
+### `--jar` / `-j`（必填）
 
-Specifies the input path to analyze, supporting three forms:
+指定待分析的输入路径，支持三种形式：
 
-- **Single JAR file**: Directly analyzes the JAR package
-- **Single WAR file**: Automatically extracts and analyzes the class files within
-- **Directory path**: Recursively scans all `.jar` files in the directory
+- **单个 JAR 文件**：直接分析该 JAR 包
+- **单个 WAR 文件**：自动解压并分析其中的 class 文件
+- **目录路径**：递归扫描目录下所有 `.jar` 文件并分析
 
 ```bash
-# Single JAR
+# 单个 JAR
 java -jar jar-analyzer-engine.jar --jar app.jar
 
-# WAR file
+# WAR 文件
 java -jar jar-analyzer-engine.jar --jar webapp.war
 
-# Scan entire lib directory
+# 扫描整个 lib 目录
 java -jar jar-analyzer-engine.jar --jar /opt/tomcat/webapps/ROOT/WEB-INF/lib/
 ```
 
 ### `--db` / `-d`
 
-Specifies the output SQLite database file path. The engine writes all analysis results to this database. If the file already exists, it will be overwritten.
+指定输出的 SQLite 数据库文件路径。引擎会将所有分析结果写入该数据库，如果文件已存在会被覆盖。
 
 ```bash
 java -jar jar-analyzer-engine.jar --jar app.jar --db /tmp/analysis.db
@@ -134,7 +134,7 @@ java -jar jar-analyzer-engine.jar --jar app.jar --db /tmp/analysis.db
 
 ### `--temp` / `-t`
 
-Specifies the temporary extraction directory. The engine needs to extract class files from JARs/WARs to disk during analysis. The directory can be manually cleaned up after analysis completes.
+指定临时解压目录。引擎在分析过程中需要将 JAR/WAR 中的 class 文件解压到磁盘，分析完成后可手动清理。
 
 ```bash
 java -jar jar-analyzer-engine.jar --jar app.jar --temp /tmp/jar-temp
@@ -142,313 +142,310 @@ java -jar jar-analyzer-engine.jar --jar app.jar --temp /tmp/jar-temp
 
 ### `--rt`
 
-Specifies the path to `rt.jar` (typically located at `$JAVA_HOME/jre/lib/rt.jar`) to include JDK standard library classes in the analysis scope.
+指定 `rt.jar` 的路径（通常位于 `$JAVA_HOME/jre/lib/rt.jar`），用于将 JDK 标准库的类也纳入分析范围。
 
-This is useful when you need to trace JDK class method call chains, for example, when analyzing deserialization chains where you need to know the method call relationships of `java.util.HashMap`.
+这对于需要追踪 JDK 类方法调用链的场景非常有用，例如分析反序列化链时需要知道 `java.util.HashMap` 的方法调用关系。
 
-> **Note**: Java 9+ has removed `rt.jar`. This option is primarily intended for analyzing Java 8 targeted projects.
+> **注意**：Java 9+ 已移除 `rt.jar`，该选项主要适用于分析面向 Java 8 的项目。
 
 ```bash
 java -jar jar-analyzer-engine.jar --jar app.jar --rt /usr/lib/jvm/java-8/jre/lib/rt.jar
 ```
 
-### `--quick` / `-q` (Quick Mode)
+### `--quick` / `-q`（快速模式）
 
-Enables quick mode, which **only performs class discovery and method call analysis**, skipping the more time-consuming inheritance tree construction, string extraction, Spring analysis, and JavaWeb component detection.
+启用快速模式，**仅执行类发现和方法调用分析**，跳过耗时较长的继承关系构建、字符串提取、Spring 分析和 JavaWeb 组件识别。
 
-Best suited when you only care about direct method call relationships and don't need the full analysis results, significantly reducing analysis time.
+适合在只关心直接方法调用关系、不需要完整分析结果时使用，可以显著缩短分析时间。
 
-| Analysis Phase | Standard Mode | Quick Mode |
-|---------------|:-------------:|:----------:|
-| JAR Extraction & Class Discovery | ✅ | ✅ |
-| Method Call Analysis | ✅ | ✅ |
-| Inheritance Tree Construction | ✅ | ❌ |
-| Method Implementation/Override Correction | ✅ | ❌ |
-| String Constant Extraction | ✅ | ❌ |
-| Spring Controller Analysis | ✅ | ❌ |
-| JavaWeb Component Detection | ✅ | ❌ |
+| 分析阶段 | 标准模式 | 快速模式 |
+|----------|:--------:|:--------:|
+| JAR 解压与类发现 | ✅ | ✅ |
+| 方法调用分析 | ✅ | ✅ |
+| 继承关系构建 | ✅ | ❌ |
+| 方法实现/Override 修正 | ✅ | ❌ |
+| 字符串常量提取 | ✅ | ❌ |
+| Spring Controller 分析 | ✅ | ❌ |
+| JavaWeb 组件识别 | ✅ | ❌ |
 
 ```bash
-# Quick analysis, focusing only on method call relationships
+# 快速分析，仅关注方法调用关系
 java -jar jar-analyzer-engine.jar --jar app.jar --quick
 ```
 
-### `--fix-class` (Class Name Correction Mode)
+### `--fix-class`（类名修正模式）
 
-When enabled, the engine uses ASM to read each class file's **actual class name** from bytecode, rather than inferring it from the file path.
+启用后，引擎会使用 ASM 从字节码中读取每个 class 文件的**真实类名**，而不是依赖文件路径推断。
 
-This is critical in the following scenarios:
+这在以下场景中非常关键：
 
-- **Spring Boot Fat JAR**: Class files are located under the `BOOT-INF/classes/` directory, with extra path prefixes
-- **WAR files**: Class files are located under the `WEB-INF/classes/` directory
-- **Build tools that reorganize directory structures**
+- **Spring Boot Fat JAR**：class 文件位于 `BOOT-INF/classes/` 目录下，文件路径包含额外前缀
+- **WAR 文件**：class 文件位于 `WEB-INF/classes/` 目录下
+- **打包工具重新组织目录结构**的情况
 
 ```bash
-# Recommended when analyzing Spring Boot Fat JARs
+# 分析 Spring Boot Fat JAR 时推荐使用
 java -jar jar-analyzer-engine.jar --jar springboot-app.jar --fix-class
 ```
 
-### `--inner-jars` (Nested JAR Parsing)
+### `--inner-jars`（嵌套 JAR 解析）
 
-When enabled, the engine recursively parses nested JAR files within JAR packages.
+启用后，引擎会递归解析 JAR 包中嵌套的 JAR 文件。
 
-Typical use cases:
+典型应用场景：
 
-- **Spring Boot Fat JAR**: Dependencies are nested as JARs under `BOOT-INF/lib/`
-- **WAR files**: Third-party dependencies are nested as JARs under `WEB-INF/lib/`
-- **Any packaging format containing nested JARs**
+- **Spring Boot Fat JAR**：依赖库以 JAR 形式嵌套在 `BOOT-INF/lib/` 中
+- **WAR 文件**：第三方依赖以 JAR 形式嵌套在 `WEB-INF/lib/` 中
+- **任何包含嵌套 JAR 的打包格式**
 
 ```bash
-# Analyze Spring Boot application (including nested dependencies)
+# 分析 Spring Boot 应用（包括嵌套依赖）
 java -jar jar-analyzer-engine.jar --jar springboot-app.jar --inner-jars --fix-class
 ```
 
-### `--no-fix-impl` (Disable Method Implementation Correction)
+### `--no-fix-impl`（禁用方法实现修正）
 
-By default, the engine automatically handles method inheritance/override relationships when building the method call graph: if code calls method A on a parent class/interface, the engine automatically adds all overriding implementations of method A from subclasses to the call graph.
+默认情况下，引擎会在构建方法调用关系时自动处理方法的继承/Override 关系：如果代码调用了父类/接口的方法 A，引擎会自动将所有子类中 Override 的方法 A 也加入调用图。
 
-Enabling `--no-fix-impl` disables this behavior, keeping only the **literal direct call relationships**.
+启用 `--no-fix-impl` 可以禁用这一行为，只保留**字面上的直接调用关系**。
 
 ```bash
-# Record only direct calls, without automatically linking subclass override methods
+# 仅记录直接调用，不自动关联子类 override 方法
 java -jar jar-analyzer-engine.jar --jar app.jar --no-fix-impl
 ```
 
-### Blacklist & Whitelist Filtering
+### 黑白名单过滤
 
-Blacklists and whitelists allow you to control which classes participate in analysis, reducing unnecessary analysis scope and speeding up the process.
+通过黑白名单可以控制哪些类参与分析，减少不必要的分析范围，加速分析过程。
 
-#### List Syntax
+#### 名单语法
 
 ```text
-# This is a comment line
-// This is also a comment line
-/* This is also a comment line
+# 这是注释行
+// 这也是注释行
+/* 这也是注释行
 
-com.example.service.         # Package-level filter (ends with ., matches all classes in the package)
-com.example.service.MyClass  # Class-level filter (exact match for a specific class)
-com.a.;com.b.;com.c.Demo    # Semicolon-separated multiple entries
+com.example.service.         # 包级别过滤（以 . 结尾，匹配该包下所有类）
+com.example.service.MyClass  # 类级别过滤（精确匹配某个类）
+com.a.;com.b.;com.c.Demo    # 分号分隔多项
 ```
 
-#### Usage
+#### 使用方式
 
-**Inline text** (suitable for simple rules):
+**内联文本**（适合简单规则）：
 
 ```bash
-# Blacklist: exclude test and mock packages
+# 黑名单：排除 test 和 mock 包
 java -jar jar-analyzer-engine.jar --jar app.jar --black-list "com.example.test.;com.example.mock."
 
-# Whitelist: only analyze service and controller packages
+# 白名单：仅分析 service 和 controller 包
 java -jar jar-analyzer-engine.jar --jar app.jar --white-list "com.example.service.;com.example.controller."
 ```
 
-**File-based** (suitable for complex rules):
+**文件方式**（适合复杂规则）：
 
 ```bash
-# Read lists from files
+# 从文件读取名单
 java -jar jar-analyzer-engine.jar --jar app.jar --black-list-file blacklist.txt --white-list-file whitelist.txt
 ```
 
-`blacklist.txt` example:
+`blacklist.txt` 示例：
 
 ```text
-# Exclude test-related
+# 排除测试相关
 com.example.test.
 com.example.mock.
 org.junit.
 
-# Exclude logging-related
+# 排除日志相关
 org.slf4j.
 ch.qos.logback.
 org.apache.logging.
 ```
 
-#### Filtering Logic
+#### 过滤逻辑
 
-- If a **whitelist** is configured: only classes matching the whitelist are analyzed
-- If a **blacklist** is configured: classes matching the blacklist are excluded
-- If both are configured: the whitelist is applied first, then the blacklist excludes from the result
-- If neither is configured: all classes are analyzed
+- 如果配置了**白名单**：只有匹配白名单的类才会被分析
+- 如果配置了**黑名单**：匹配黑名单的类会被排除
+- 如果同时配置了黑白名单：先匹配白名单，再排除黑名单
+- 如果都未配置：分析所有类
 
-## ⚙️ Analysis Pipeline
+## ⚙️ 分析流程
 
-The engine uses a multi-stage pipeline architecture, with stages executed sequentially:
+引擎采用多阶段流水线架构，各阶段按顺序执行：
 
 ```
-Input (JAR/WAR/CLASS)
+输入 (JAR/WAR/CLASS)
      │
      ▼
-┌──────────────────────────────────┐
-│  Stage 0: JAR Extraction &       │  Extract files, apply blacklist/
-│  Filtering (0% - 15%)           │  whitelist
-└──────────────┬───────────────────┘
+┌──────────────────────────────┐
+│  阶段 0: JAR 解压与过滤       │  解压文件，应用黑白名单
+│  (0% - 15%)                  │
+└──────────────┬───────────────┘
                ▼
-┌──────────────────────────────────┐
-│  Stage 1: Class Discovery        │  Extract class/method/field/
-│  (15% - 30%)                     │  annotation info
-└──────────────┬───────────────────┘
+┌──────────────────────────────┐
+│  阶段 1: 类发现 (Discovery)   │  提取类/方法/字段/注解信息
+│  (15% - 30%)                 │
+└──────────────┬───────────────┘
                ▼
-┌──────────────────────────────────┐
-│  Stage 2: Method Call Analysis   │  Analyze invocation instructions
-│  (30% - 40%)                     │  in method bodies
-└──────────────┬───────────────────┘
+┌──────────────────────────────┐
+│  阶段 2: 方法调用分析          │  分析方法体中的调用指令
+│  (30% - 40%)                 │
+└──────────────┬───────────────┘
                ▼
-┌──────────────────────────────────┐
-│  Stage 3: Inheritance Tree       │  Build inheritance tree + method
-│  Construction (40%-70%)          │  implementation mapping
-│  [Standard Mode]                 │
-└──────────────┬───────────────────┘
+┌──────────────────────────────┐
+│  阶段 3: 继承关系构建          │  构建继承树 + 方法实现映射
+│  (40% - 70%) [标准模式]       │
+└──────────────┬───────────────┘
                ▼
-┌──────────────────────────────────┐
-│  Stage 4: String Constant        │  Extract strings from code and
-│  Extraction (70%-80%)            │  annotations
-│  [Standard Mode]                 │
-└──────────────┬───────────────────┘
+┌──────────────────────────────┐
+│  阶段 4: 字符串常量提取        │  提取代码和注解中的字符串
+│  (70% - 80%) [标准模式]       │
+└──────────────┬───────────────┘
                ▼
-┌──────────────────────────────────┐
-│  Stage 5: Spring Analysis        │  Identify Controller/Mapping/
-│  (80% - 90%)                     │  parameters
-│  [Standard Mode]                 │
-└──────────────┬───────────────────┘
+┌──────────────────────────────┐
+│  阶段 5: Spring 分析          │  识别 Controller/Mapping/参数
+│  (80% - 90%) [标准模式]       │
+└──────────────┬───────────────┘
                ▼
-┌──────────────────────────────────┐
-│  Stage 6: JavaWeb Component      │  Identify Servlet/Filter/
-│  Detection [Standard Mode]       │  Listener
-└──────────────┬───────────────────┘
+┌──────────────────────────────┐
+│  阶段 6: JavaWeb 组件识别     │  识别 Servlet/Filter/Listener
+│  [标准模式]                   │
+└──────────────┬───────────────┘
                ▼
-         SQLite Database
+          SQLite 数据库
 ```
 
-### Stage 0: JAR Extraction & Filtering
+### 阶段 0: JAR 解压与过滤
 
-- Extracts input JAR/WAR files to a temporary directory
-- Applies blacklist/whitelist rules to filter out unnecessary classes
-- If `--inner-jars` is enabled, recursively extracts nested JARs
-- If `--fix-class` is enabled, reads actual class names from bytecode
-- Automatically extracts configuration files (`.yml`, `.yaml`, `.properties`, `.xml`, `.json`, etc.)
-- Built-in Zip Slip path traversal attack defense
+- 解压输入的 JAR/WAR 文件到临时目录
+- 应用黑白名单规则过滤不需要分析的类
+- 如果启用 `--inner-jars`，递归解压嵌套 JAR
+- 如果启用 `--fix-class`，从字节码中读取真实类名
+- 自动提取配置文件（`.yml`、`.yaml`、`.properties`、`.xml`、`.json` 等）
+- 内置 Zip Slip 路径穿越攻击防御
 
-### Stage 1: Class Discovery
+### 阶段 1: 类发现 (Discovery)
 
-Traverses all class files using ASM `ClassVisitor`, extracting:
+通过 ASM `ClassVisitor` 遍历所有 class 文件，提取：
 
-- **Class information**: class name, superclass, interfaces, access modifiers, version
-- **Field information**: field name, type, modifiers, initial value
-- **Method information**: method name, descriptor, static flag, access modifiers, line number
-- **Annotation information**: class-level and method-level annotations with their parameters
+- **类信息**：类名、父类、接口、访问修饰符、版本号
+- **字段信息**：字段名、类型、修饰符、初始值
+- **方法信息**：方法名、描述符、是否静态、访问修饰符、行号
+- **注解信息**：类级和方法级注解及其参数
 
-### Stage 2: Method Call Analysis
+### 阶段 2: 方法调用分析
 
-Analyzes bytecode invocation instructions in each method body:
+分析每个方法体中的字节码调用指令：
 
-- `invokevirtual` — Virtual method calls
-- `invokestatic` — Static method calls
-- `invokespecial` — Constructor/super calls
-- `invokeinterface` — Interface method calls
-- `invokedynamic` — Lambda expressions and method references
+- `invokevirtual` — 虚方法调用
+- `invokestatic` — 静态方法调用
+- `invokespecial` — 构造方法/super 调用
+- `invokeinterface` — 接口方法调用
+- `invokedynamic` — Lambda 表达式和方法引用
 
-Records complete caller → callee relationships, including the invocation opcode type.
+记录完整的 caller → callee 关系，包括调用的 opcode 类型。
 
-### Stage 3: Inheritance Tree Construction (Standard Mode)
+### 阶段 3: 继承关系构建（标准模式）
 
-- Recursively builds the **complete inheritance chain** for each class (including all ancestor classes and interfaces)
-- Builds bidirectional mappings: subclass → all superclasses, superclass → all subclasses
-- Finds method implementation/override relationships: for each non-static method, locates all subclass methods with the same name and descriptor
-- If method implementation correction is enabled (default), automatically adds overriding methods to the call graph
+- 递归构建每个类的**完整继承链**（包括所有祖先类和接口）
+- 构建双向映射：子类 → 所有父类，父类 → 所有子类
+- 查找方法实现/Override 关系：对每个非静态方法，找到所有子类中同名同描述符的方法
+- 如果启用方法实现修正（默认启用），将 Override 方法自动加入调用图
 
-### Stage 4: String Constant Extraction (Standard Mode)
+### 阶段 4: 字符串常量提取（标准模式）
 
-- Extracts string constants loaded by `LDC` instructions in method bodies
-- Extracts string values from method annotations
-- Useful for searching SQL statements, URL paths, keys, and other sensitive information
+- 提取方法体中 `LDC` 指令加载的字符串常量
+- 提取方法注解中的字符串值
+- 可用于 SQL 语句、URL 路径、密钥等敏感信息检索
 
-### Stage 5: Spring Analysis (Standard Mode)
+### 阶段 5: Spring 分析（标准模式）
 
-Identifies Spring MVC related components:
+识别 Spring MVC 相关组件：
 
-- Identifies controller classes annotated with `@Controller` / `@RestController`
-- Parses `@RequestMapping`, `@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping`, `@PatchMapping` annotations
-- Builds complete URL paths (class-level basePath + method-level path)
-- Extracts `@RequestParam` parameter mappings
+- 识别 `@Controller` / `@RestController` 注解的控制器类
+- 解析 `@RequestMapping`、`@GetMapping`、`@PostMapping`、`@PutMapping`、`@DeleteMapping`、`@PatchMapping` 注解
+- 构建完整的 URL 路径（类级 basePath + 方法级 path）
+- 提取 `@RequestParam` 参数映射
 
-### Stage 6: JavaWeb Component Detection (Standard Mode)
+### 阶段 6: JavaWeb 组件识别（标准模式）
 
-Identifies traditional JavaWeb components through superclass/interface relationships:
+通过父类/接口关系识别传统 JavaWeb 组件：
 
-- **Servlet**: Implements `javax.servlet.Servlet` / `jakarta.servlet.Servlet` or extends `HttpServlet`
-- **Filter**: Implements `javax.servlet.Filter` / `jakarta.servlet.Filter`
-- **Listener**: Implements `ServletContextListener` / `ServletRequestListener` / `HttpSessionListener`
-- **Interceptor**: Implements `HandlerInterceptor` / `AsyncHandlerInterceptor` or extends `HandlerInterceptorAdapter`
+- **Servlet**：实现 `javax.servlet.Servlet` / `jakarta.servlet.Servlet` 或继承 `HttpServlet`
+- **Filter**：实现 `javax.servlet.Filter` / `jakarta.servlet.Filter`
+- **Listener**：实现 `ServletContextListener` / `ServletRequestListener` / `HttpSessionListener`
+- **Interceptor**：实现 `HandlerInterceptor` / `AsyncHandlerInterceptor` 或继承 `HandlerInterceptorAdapter`
 
-## 🗄️ Output Database
+## 🗄️ 输出数据库
 
-The engine outputs a SQLite database containing the following core tables:
+引擎输出一个 SQLite 数据库，包含以下核心表：
 
-| Table Name | Description | Key Fields |
-|------------|-------------|------------|
-| `jar_table` | JAR file information | jar_name, jar_abs_path |
-| `class_table` | Class information | class_name, super_class_name, is_interface, access |
-| `class_file_table` | Class file paths | class_name, path_str, jar_name |
-| `member_table` | Fields/Members | member_name, modifiers, type_class_name, class_name |
-| `method_table` | Method information | method_name, method_desc, is_static, class_name, line_number |
-| `anno_table` | Annotation information | anno_name, method_name, class_name, visible |
-| `interface_table` | Interface implementations | interface_name, class_name |
-| `method_call_table` | Method call relationships | caller_class/method/desc, callee_class/method/desc, op_code |
-| `method_impl_table` | Method implementation/Override | class_name, method_name, impl_class_name |
-| `string_table` | String constants | value, method_name, class_name |
-| `spring_controller_table` | Spring Controllers | class_name |
-| `spring_method_table` | Spring Mappings | class_name, method_name, restful_type, path |
-| `spring_interceptor_table` | Spring Interceptors | class_name |
+| 表名 | 说明 | 核心字段 |
+|------|------|----------|
+| `jar_table` | JAR 文件信息 | jar_name, jar_abs_path |
+| `class_table` | 类信息 | class_name, super_class_name, is_interface, access |
+| `class_file_table` | 类文件路径 | class_name, path_str, jar_name |
+| `member_table` | 字段/成员 | member_name, modifiers, type_class_name, class_name |
+| `method_table` | 方法信息 | method_name, method_desc, is_static, class_name, line_number |
+| `anno_table` | 注解信息 | anno_name, method_name, class_name, visible |
+| `interface_table` | 接口实现 | interface_name, class_name |
+| `method_call_table` | 方法调用关系 | caller_class/method/desc, callee_class/method/desc, op_code |
+| `method_impl_table` | 方法实现/Override | class_name, method_name, impl_class_name |
+| `string_table` | 字符串常量 | value, method_name, class_name |
+| `spring_controller_table` | Spring 控制器 | class_name |
+| `spring_method_table` | Spring Mapping | class_name, method_name, restful_type, path |
+| `spring_interceptor_table` | Spring 拦截器 | class_name |
 | `java_web_table` | Servlet/Filter/Listener | type_name, class_name |
 
-### SQL Query Examples
+### SQL 查询示例
 
-Here are some commonly used analysis queries that can be executed directly in any SQLite client:
+以下是一些常用的分析查询，可直接在 SQLite 客户端中执行：
 
 ```sql
--- Find all Spring Controller API routes
+-- 查找所有 Spring Controller 的 API 路由
 SELECT sm.path, sm.restful_type, sm.class_name, sm.method_name
 FROM spring_method_table sm
 ORDER BY sm.path;
 
--- Find all callers of a method (who calls it)
+-- 查找某个方法的所有调用者（谁调用了它）
 SELECT caller_class_name, caller_method_name
 FROM method_call_table
 WHERE callee_class_name = 'com/example/service/UserService'
   AND callee_method_name = 'getUser';
 
--- Find all methods called by a specific method
+-- 查找某个方法调用了哪些方法
 SELECT callee_class_name, callee_method_name
 FROM method_call_table
 WHERE caller_class_name = 'com/example/controller/UserController'
   AND caller_method_name = 'handleRequest';
 
--- Find methods containing sensitive strings (passwords, keys, etc.)
+-- 查找包含敏感字符串的方法（如密码、密钥等）
 SELECT class_name, method_name, value
 FROM string_table
 WHERE value LIKE '%password%'
    OR value LIKE '%secret%'
    OR value LIKE '%token%';
 
--- Find all Servlets and Filters (attack surface enumeration)
+-- 查找所有 Servlet 和 Filter（攻击面枚举）
 SELECT type_name, class_name
 FROM java_web_table
 ORDER BY type_name;
 
--- Find all classes implementing a specific interface
+-- 查找实现了某个接口的所有类
 SELECT class_name
 FROM interface_table
 WHERE interface_name = 'java/io/Serializable';
 
--- Find method inheritance/override relationships
+-- 查找方法的继承/Override 关系
 SELECT class_name, method_name, method_desc, impl_class_name
 FROM method_impl_table
 WHERE method_name = 'invoke';
 ```
 
-## 🎯 Typical Use Cases
+## 🎯 典型使用场景
 
-### 1. Analyzing a Spring Boot Application
+### 1. 分析 Spring Boot 应用
 
 ```bash
 java -jar jar-analyzer-engine.jar \
@@ -458,9 +455,9 @@ java -jar jar-analyzer-engine.jar \
   --db springboot-analysis.db
 ```
 
-It is recommended to enable both `--fix-class` and `--inner-jars`, since Spring Boot Fat JARs place class files under `BOOT-INF/classes/` and dependency libraries under `BOOT-INF/lib/`.
+推荐同时启用 `--fix-class` 和 `--inner-jars`，因为 Spring Boot Fat JAR 将 class 文件放在 `BOOT-INF/classes/` 中，依赖库放在 `BOOT-INF/lib/` 中。
 
-### 2. Analyzing a Tomcat Web Application
+### 2. 分析 Tomcat Web 应用
 
 ```bash
 java -jar jar-analyzer-engine.jar \
@@ -468,7 +465,7 @@ java -jar jar-analyzer-engine.jar \
   --db webapp-analysis.db
 ```
 
-### 3. Quick Method Call Chain Analysis
+### 3. 快速分析方法调用链
 
 ```bash
 java -jar jar-analyzer-engine.jar \
@@ -477,7 +474,7 @@ java -jar jar-analyzer-engine.jar \
   --db quick-analysis.db
 ```
 
-### 4. Precise Scope Analysis
+### 4. 精确范围分析
 
 ```bash
 java -jar jar-analyzer-engine.jar \
@@ -487,7 +484,7 @@ java -jar jar-analyzer-engine.jar \
   --db precise-analysis.db
 ```
 
-### 5. Analysis Including JDK Classes (Deserialization Chain Mining, etc.)
+### 5. 包含 JDK 类分析（反序列化链挖掘等场景）
 
 ```bash
 java -jar jar-analyzer-engine.jar \
@@ -496,48 +493,48 @@ java -jar jar-analyzer-engine.jar \
   --db full-analysis.db
 ```
 
-## 🤖 AI Integration for Code Auditing
+## 🤖 与 AI 集成进行代码审计
 
-The generated SQLite database is naturally suited for use with AI tools. Here is the recommended workflow:
+生成的 SQLite 数据库天然适合与 AI 工具结合使用，以下是推荐的工作流：
 
-### Using Claude Code
+### 使用 Claude Code
 
 ```bash
-# 1. First, analyze the target application with the engine
+# 1. 先用引擎分析目标应用
 java -jar jar-analyzer-engine.jar --jar target-app.jar --db audit.db
 
-# 2. In Claude Code, the AI can directly query the database for analysis
+# 2. 在 Claude Code 中，AI 可以直接查询数据库进行分析
 ```
 
-In Claude Code, you can ask the AI to perform the following audit tasks:
+在 Claude Code 中，你可以要求 AI 执行以下审计任务：
 
-- **Attack Surface Enumeration**: Query all Spring Controller routes and Servlets/Filters to map web entry points
-- **Call Chain Tracing**: Trace backwards from dangerous methods (e.g., `Runtime.exec`, `ProcessBuilder.start`) to discover potential RCE vulnerabilities
-- **Deserialization Analysis**: Find classes implementing `Serializable` and analyze the call graph of `readObject` methods
-- **Sensitive Information Search**: Search the string table for hardcoded passwords, API keys, internal URLs, etc.
-- **Authorization Audit**: Trace whether Controller methods pass through authentication/authorization interceptors
+- **攻击面枚举**：查询所有 Spring Controller 路由和 Servlet/Filter，梳理 Web 入口点
+- **调用链追踪**：从危险方法（如 `Runtime.exec`、`ProcessBuilder.start`）反向追踪调用链，发现潜在 RCE
+- **反序列化分析**：查找实现 `Serializable` 的类，分析 `readObject` 方法的调用图
+- **敏感信息检索**：通过字符串表搜索硬编码密码、API Key、内部 URL 等
+- **权限校验审计**：追踪 Controller 方法是否经过认证/授权拦截器
 
-### Example Conversation
+### 示例对话
 
 ```
-User: Analyze all web entry points in audit.db and trace which ones eventually call Runtime.exec
+用户: 帮我分析 audit.db 中所有的 Web 入口点，并追踪哪些入口点最终会调用到 Runtime.exec
 
-AI: Let me query the database for analysis...
-    [Query spring_method_table to get all routes]
-    [Query method_call_table to trace Runtime.exec call chains]
-    [Correlate analysis to find reachable paths]
+AI: 我来查询数据库进行分析...
+    [查询 spring_method_table 获取所有路由]
+    [查询 method_call_table 追踪 Runtime.exec 的调用链]
+    [关联分析，找出可达路径]
 ```
 
-## 💻 Programming API
+## 💻 编程接口
 
-In addition to CLI usage, the engine can also be integrated as a library into other Java programs:
+除了 CLI 使用方式，引擎也可以作为库被其他 Java 程序集成：
 
 ```java
 import me.n1ar4.jar.analyzer.engine.EngineConfig;
 import me.n1ar4.jar.analyzer.engine.EngineBuildRunner;
 import me.n1ar4.jar.analyzer.engine.ProgressCallback;
 
-// Build configuration
+// 构建配置
 EngineConfig config = new EngineConfig();
 config.setJarPath(Paths.get("/path/to/app.jar"));
 config.setDbPath("output.db");
@@ -547,11 +544,11 @@ config.setFixClass(true);
 config.setJarsInJar(true);
 config.setFixMethodImpl(true);
 
-// Set progress callback (optional)
+// 设置进度回调（可选）
 config.setProgressCallback(new ProgressCallback() {
     @Override
     public void onProgress(double percent) {
-        System.out.printf("Progress: %.1f%%\n", percent * 100);
+        System.out.printf("进度: %.1f%%\n", percent * 100);
     }
     
     @Override
@@ -560,137 +557,137 @@ config.setProgressCallback(new ProgressCallback() {
     }
 });
 
-// Run analysis
+// 执行分析
 EngineBuildRunner.run(config);
 ```
 
-## 🔧 Tech Stack
+## 🔧 技术栈
 
-| Dependency | Version | Purpose |
-|------------|---------|---------|
-| [ASM](https://asm.ow2.io/) | 9.9.1 | Java bytecode analysis framework |
-| [MyBatis](https://mybatis.org/) | 3.5.19 | ORM / SQL mapping |
-| [SQLite JDBC](https://github.com/xerial/sqlite-jdbc) | 3.51.3.0 | SQLite database driver |
-| [Commons DBCP2](https://commons.apache.org/proper/commons-dbcp/) | 2.14.0 | Database connection pool |
-| [Commons Compress](https://commons.apache.org/proper/commons-compress/) | 1.28.0 | JAR/WAR/ZIP extraction |
-| [JCommander](https://jcommander.org/) | 1.82 | CLI argument parsing |
-| [Hutool](https://hutool.cn/) | 5.8.43 | Utility library |
+| 依赖 | 版本 | 用途 |
+|------|------|------|
+| [ASM](https://asm.ow2.io/) | 9.9.1 | Java 字节码分析框架 |
+| [MyBatis](https://mybatis.org/) | 3.5.19 | ORM / SQL 映射 |
+| [SQLite JDBC](https://github.com/xerial/sqlite-jdbc) | 3.51.3.0 | SQLite 数据库驱动 |
+| [Commons DBCP2](https://commons.apache.org/proper/commons-dbcp/) | 2.14.0 | 数据库连接池 |
+| [Commons Compress](https://commons.apache.org/proper/commons-compress/) | 1.28.0 | JAR/WAR/ZIP 解压 |
+| [JCommander](https://jcommander.org/) | 1.82 | CLI 参数解析 |
+| [Hutool](https://hutool.cn/) | 5.8.43 | 工具方法库 |
 
-## 📁 Project Structure
+## 📁 项目结构
 
 ```
 jar-analyzer-engine/
 ├── src/main/java/me/n1ar4/jar/analyzer/
-│   ├── engine/                      # Engine entry layer
-│   │   ├── EngineMain.java          #   CLI main entry point
-│   │   ├── EngineBuildRunner.java   #   Pipeline orchestration core
-│   │   ├── EngineConfig.java        #   Configuration class
-│   │   ├── EngineBuildCmd.java      #   CLI argument definitions (JCommander)
-│   │   ├── ProgressCallback.java    #   Progress callback interface
-│   │   ├── EngineConst.java         #   Constants
-│   │   ├── log/                     #   Custom logging system
-│   │   └── utils/                   #   Utilities (JAR extraction, blacklist/whitelist, etc.)
-│   ├── core/                        # Core analysis layer
-│   │   ├── AnalyzeEnv.java          #   Global analysis environment
-│   │   ├── DatabaseManager.java     #   Database management & persistence
-│   │   ├── DiscoveryRunner.java     #   Stage 1: Class discovery
-│   │   ├── MethodCallRunner.java    #   Stage 2: Method call analysis
-│   │   ├── InheritanceRunner.java   #   Stage 3: Inheritance tree construction
-│   │   ├── InheritanceMap.java      #   Inheritance data structure
-│   │   ├── OtherWebService.java     #   Stage 6: JavaWeb component detection
-│   │   ├── asm/                     #   ASM bytecode visitors
-│   │   ├── mapper/                  #   MyBatis Mapper interfaces (15)
-│   │   └── reference/               #   Core data models
-│   ├── entity/                      # Database entity classes (18)
-│   └── analyze/spring/              # Spring framework analysis
-│       ├── SpringService.java       #   Spring analysis entry point
-│       └── asm/                     #   Spring annotation ASM visitors
+│   ├── engine/                      # 引擎入口层
+│   │   ├── EngineMain.java          #   CLI 主入口
+│   │   ├── EngineBuildRunner.java   #   流水线编排核心
+│   │   ├── EngineConfig.java        #   配置类
+│   │   ├── EngineBuildCmd.java      #   CLI 参数定义 (JCommander)
+│   │   ├── ProgressCallback.java    #   进度回调接口
+│   │   ├── EngineConst.java         #   常量定义
+│   │   ├── log/                     #   自定义日志系统
+│   │   └── utils/                   #   工具类 (JAR 解压、黑白名单等)
+│   ├── core/                        # 核心分析层
+│   │   ├── AnalyzeEnv.java          #   全局分析环境
+│   │   ├── DatabaseManager.java     #   数据库管理 & 持久化
+│   │   ├── DiscoveryRunner.java     #   阶段1: 类发现
+│   │   ├── MethodCallRunner.java    #   阶段2: 方法调用分析
+│   │   ├── InheritanceRunner.java   #   阶段3: 继承关系构建
+│   │   ├── InheritanceMap.java      #   继承关系数据结构
+│   │   ├── OtherWebService.java     #   阶段6: JavaWeb 组件识别
+│   │   ├── asm/                     #   ASM 字节码访问器
+│   │   ├── mapper/                  #   MyBatis Mapper 接口 (15个)
+│   │   └── reference/               #   核心数据模型
+│   ├── entity/                      # 数据库实体类 (18个)
+│   └── analyze/spring/              # Spring 框架分析
+│       ├── SpringService.java       #   Spring 分析入口
+│       └── asm/                     #   Spring 注解 ASM 访问器
 ├── src/main/resources/
-│   ├── mybatis.xml                  # MyBatis main configuration
-│   ├── jdbc.properties              # JDBC connection configuration
-│   └── mappers/                     # MyBatis SQL mapping files (15)
-└── pom.xml                          # Maven build configuration
+│   ├── mybatis.xml                  # MyBatis 主配置
+│   ├── jdbc.properties              # JDBC 连接配置
+│   └── mappers/                     # MyBatis SQL 映射文件 (15个)
+└── pom.xml                          # Maven 构建配置
 ```
 
-## ❓ FAQ
+## ❓ 常见问题
 
 <details>
-<summary><b>Q: Running out of memory when analyzing large projects?</b></summary>
+<summary><b>Q: 分析大型项目时内存不足怎么办？</b></summary>
 
-Increase the JVM heap memory:
+增大 JVM 堆内存：
 
 ```bash
 java -Xmx2g -jar jar-analyzer-engine.jar --jar large-app.jar
 ```
 
-For particularly large projects, you can also use `--quick` mode to reduce memory consumption, or narrow the analysis scope using blacklists/whitelists.
+对于特别大的项目，也可以使用 `--quick` 模式减少内存消耗，或通过黑白名单缩小分析范围。
 
 </details>
 
 <details>
-<summary><b>Q: Empty results when analyzing Spring Boot Fat JARs?</b></summary>
+<summary><b>Q: 分析 Spring Boot Fat JAR 结果为空？</b></summary>
 
-You need to enable both `--fix-class` and `--inner-jars`:
+需要同时启用 `--fix-class` 和 `--inner-jars`：
 
 ```bash
 java -jar jar-analyzer-engine.jar --jar springboot-app.jar --fix-class --inner-jars
 ```
 
-Spring Boot Fat JAR class files are located under `BOOT-INF/classes/`. Without `--fix-class`, class names will contain the `BOOT-INF.classes.` prefix.
+Spring Boot Fat JAR 的 class 文件位于 `BOOT-INF/classes/` 中，不启用 `--fix-class` 会导致类名包含 `BOOT-INF.classes.` 前缀。
 
 </details>
 
 <details>
-<summary><b>Q: Does it support Java 9+ modular JARs?</b></summary>
+<summary><b>Q: 支持 Java 9+ 模块化 JAR 吗？</b></summary>
 
-Yes. The engine uses ASM 9.9.1, which can handle class files from Java 8 to Java 21+. However, the `--rt` parameter only applies to Java 8's `rt.jar` — Java 9+ modular JDKs do not require this parameter.
-
-</details>
-
-<details>
-<summary><b>Q: Does it support incremental analysis?</b></summary>
-
-The current version rebuilds the entire database on each analysis run (overwriting existing files). Incremental analysis is planned for a future release.
+支持。引擎使用 ASM 9.9.1，可以处理 Java 8 到 Java 21+ 的 class 文件。但 `--rt` 参数仅适用于 Java 8 的 `rt.jar`，Java 9+ 的模块化 JDK 无需此参数。
 
 </details>
 
 <details>
-<summary><b>Q: What about "StackMapTable" related errors?</b></summary>
+<summary><b>Q: 是否支持增量分析？</b></summary>
 
-The engine has built-in error tolerance for corrupted class files. If a class file's `StackMapTable` is corrupted, the engine automatically falls back to `SKIP_FRAMES` mode for re-parsing, without interrupting the overall analysis process.
+当前版本每次分析会重建整个数据库（覆盖已有文件）。增量分析功能计划在后续版本中支持。
 
 </details>
 
-## 🤝 Contributing
+<details>
+<summary><b>Q: 遇到 "StackMapTable" 相关错误怎么办？</b></summary>
 
-Contributions are welcome! Please follow these steps:
+引擎内置了损坏类文件的容错处理。如果某个 class 文件的 `StackMapTable` 损坏，引擎会自动降级为 `SKIP_FRAMES` 模式重新解析，不会中断整个分析流程。
 
-1. **Fork** this repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'feat: add amazing feature'`
-4. Push the branch: `git push origin feature/amazing-feature`
-5. Submit a **Pull Request**
+</details>
 
-### Development Environment
+## 🤝 贡献指南
 
-- JDK 8 or higher
+欢迎贡献代码！请遵循以下步骤：
+
+1. **Fork** 本仓库
+2. 创建特性分支：`git checkout -b feature/amazing-feature`
+3. 提交更改：`git commit -m 'feat: add amazing feature'`
+4. 推送分支：`git push origin feature/amazing-feature`
+5. 提交 **Pull Request**
+
+### 开发环境
+
+- JDK 8 或更高版本
 - Maven 3.6+
-- Recommended IDE: IntelliJ IDEA
+- IDE 推荐：IntelliJ IDEA
 
-### Code Standards
+### 代码规范
 
-- Follow Java standard naming conventions
-- New features must maintain compatibility with Java 8
-- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/) specification
+- 遵循 Java 标准命名规范
+- 新增功能需保持与 Java 8 的兼容性
+- 提交信息遵循 [Conventional Commits](https://www.conventionalcommits.org/) 规范
 
-## 🔗 Related Projects
+## 🔗 相关项目
 
-| Project | Description |
-|---------|-------------|
-| [jar-analyzer](https://github.com/jar-analyzer/jar-analyzer) | Java bytecode security analysis GUI tool (the upstream application of this engine) |
+| 项目 | 说明 |
+|------|------|
+| [jar-analyzer](https://github.com/jar-analyzer/jar-analyzer) | Java 字节码安全分析 GUI 工具（本引擎的上层应用） |
 
-## 📄 License
+## 📄 许可证
 
-This project is open-sourced under the [MIT](https://github.com/jar-analyzer/jar-analyzer/blob/master/LICENSE) License.
+本项目基于 [MIT](https://github.com/jar-analyzer/jar-analyzer/blob/master/LICENSE) 许可证开源。
 
 Copyright © 2022-2026 [4ra1n](https://github.com/4ra1n) (Jar Analyzer Team)
