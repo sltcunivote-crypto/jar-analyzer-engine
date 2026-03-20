@@ -8,10 +8,16 @@
  * https://github.com/jar-analyzer/jar-analyzer/blob/master/LICENSE
  */
 
-package me.n1ar4.jar.analyzer.engine;
+package me.n1ar4.jar.analyzer;
 
 import com.beust.jcommander.JCommander;
 import me.n1ar4.jar.analyzer.decompile.DecompileEngine;
+import me.n1ar4.jar.analyzer.engine.EngineBuildCmd;
+import me.n1ar4.jar.analyzer.engine.EngineBuildRunner;
+import me.n1ar4.jar.analyzer.engine.EngineConfig;
+import me.n1ar4.jar.analyzer.engine.EngineConst;
+import me.n1ar4.jar.analyzer.engine.ProgressCallback;
+import me.n1ar4.jar.analyzer.engine.log.LogLevel;
 import me.n1ar4.jar.analyzer.engine.log.LogManager;
 import me.n1ar4.jar.analyzer.engine.log.Logger;
 
@@ -25,9 +31,6 @@ public class EngineMain {
 
     @SuppressWarnings("all")
     public static void main(String[] args) {
-        logger.info("=== Jar Analyzer Engine {} ===", EngineConst.version);
-        logger.info("Build SQLite database from JAR/WAR files");
-
         EngineBuildCmd cmd = new EngineBuildCmd();
         JCommander jc = JCommander.newBuilder()
                 .addObject(cmd)
@@ -47,6 +50,21 @@ public class EngineMain {
             jc.usage();
             return;
         }
+
+        // Apply log level (default: INFO)
+        if (cmd.logLevel != null && !cmd.logLevel.isEmpty()) {
+            try {
+                LogLevel level = LogLevel.valueOf(cmd.logLevel.toUpperCase());
+                LogManager.setLevel(level);
+            } catch (IllegalArgumentException e) {
+                logger.error("Invalid log level: {} (valid: DEBUG, INFO, WARN, ERROR)", cmd.logLevel);
+                System.exit(1);
+                return;
+            }
+        }
+
+        logger.info("=== Jar Analyzer Engine {} ===", EngineConst.version);
+        logger.info("Build SQLite database from JAR/WAR files");
 
         // Decompile mode: --decompile/-d
         if (cmd.decompileClassName != null && !cmd.decompileClassName.isEmpty()) {

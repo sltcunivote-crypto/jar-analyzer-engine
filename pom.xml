@@ -39,7 +39,7 @@
         <!-- Encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Main -->
-        <main.name>me.n1ar4.jar.analyzer.engine.EngineMain</main.name>
+        <main.name>me.n1ar4.jar.analyzer.EngineMain</main.name>
     </properties>
 
     <dependencies>

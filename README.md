@@ -114,6 +114,7 @@ java -jar jar-analyzer-engine.jar --jar /path/to/app.jar --decompile com.example
 | `--black-list-file <file>` | — | 无 | 从文件读取黑名单 |
 | `--white-list-file <file>` | — | 无 | 从文件读取白名单 |
 | `--decompile <class>` | `-d` | 无 | 反编译指定类并输出源码到控制台（如 `com.example.MyClass`） |
+| `--log-level <level>` | — | `INFO` | 日志级别：`DEBUG`、`INFO`、`WARN`、`ERROR` |
 | `--help` | `-h` | — | 显示帮助信息 |
 
 ## 📚 参数详解
@@ -209,6 +210,25 @@ java -jar jar-analyzer-engine.jar --jar springboot-app.jar --inner-jars --fix-cl
 ```bash
 # 仅记录直接调用，不自动关联子类 override 方法
 java -jar jar-analyzer-engine.jar --jar app.jar --no-fix-impl
+```
+
+### `--log-level`（日志级别）
+
+设置引擎运行时的日志输出级别，默认为 `INFO`。支持以下级别（不区分大小写）：
+
+| 级别 | 说明 |
+|------|------|
+| `DEBUG` | 输出所有调试信息，最详细 |
+| `INFO` | 输出一般运行信息（默认） |
+| `WARN` | 仅输出警告和错误 |
+| `ERROR` | 仅输出错误信息 |
+
+```bash
+# 调试模式，查看详细分析过程
+java -jar jar-analyzer-engine.jar --jar app.jar --log-level debug
+
+# 安静模式，仅显示警告和错误
+java -jar jar-analyzer-engine.jar --jar app.jar --log-level warn
 ```
 
 ### `--decompile` / `-d`（反编译模式）
@@ -605,8 +625,8 @@ EngineBuildRunner.run(config);
 ```
 jar-analyzer-engine/
 ├── src/main/java/me/n1ar4/jar/analyzer/
-│   ├── engine/                      # 引擎入口层
-│   │   ├── EngineMain.java          #   CLI 主入口
+│   ├── EngineMain.java              # CLI 主入口
+│   ├── engine/                      # 引擎核心层
 │   │   ├── EngineBuildRunner.java   #   流水线编排核心
 │   │   ├── EngineConfig.java        #   配置类
 │   │   ├── EngineBuildCmd.java      #   CLI 参数定义 (JCommander)

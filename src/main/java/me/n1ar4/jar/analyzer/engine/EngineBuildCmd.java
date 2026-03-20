@@ -51,6 +51,9 @@ public class EngineBuildCmd {
     @Parameter(names = {"--decompile", "-d"}, description = "Decompile a class from JAR and print source to console (e.g. com.example.MyClass)")
     public String decompileClassName;
 
+    @Parameter(names = {"--log-level"}, description = "Log level: DEBUG, INFO, WARN, ERROR (default: INFO)")
+    public String logLevel;
+
     @Parameter(names = {"--help", "-h"}, help = true, description = "Show help message")
     public boolean help;
 }

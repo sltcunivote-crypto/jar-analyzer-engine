@@ -20,7 +20,7 @@
 
 ---
 
-> [中文文档](README_CN.md)
+> [中文文档](README.md)
 
 ## 📖 Introduction
 
@@ -106,6 +106,7 @@ After analysis, a SQLite database file `jar-analyzer.db` will be generated in th
 | `--black-list-file <file>` | — | None | Read blacklist from file |
 | `--white-list-file <file>` | — | None | Read whitelist from file |
 | `--decompile <class>` | `-d` | None | Decompile a specific class and print source to console (e.g. `com.example.MyClass`) |
+| `--log-level <level>` | — | `INFO` | Log level: `DEBUG`, `INFO`, `WARN`, `ERROR` |
 | `--help` | `-h` | — | Display help information |
 
 ## 📚 Argument Details
@@ -201,6 +202,25 @@ Enabling `--no-fix-impl` disables this behavior, keeping only the **literal dire
 ```bash
 # Record only direct calls, without automatically linking subclass override methods
 java -jar jar-analyzer-engine.jar --jar app.jar --no-fix-impl
+```
+
+### `--log-level` (Log Level)
+
+Sets the log output level for the engine at runtime. Defaults to `INFO`. The following levels are supported (case-insensitive):
+
+| Level | Description |
+|-------|-------------|
+| `DEBUG` | Output all debug information, most verbose |
+| `INFO` | Output general runtime information (default) |
+| `WARN` | Output only warnings and errors |
+| `ERROR` | Output only error messages |
+
+```bash
+# Debug mode: see detailed analysis process
+java -jar jar-analyzer-engine.jar --jar app.jar --log-level debug
+
+# Quiet mode: show only warnings and errors
+java -jar jar-analyzer-engine.jar --jar app.jar --log-level warn
 ```
 
 ### `--decompile` / `-d` (Decompile Mode)
@@ -600,8 +620,8 @@ EngineBuildRunner.run(config);
 ```
 jar-analyzer-engine/
 ├── src/main/java/me/n1ar4/jar/analyzer/
-│   ├── engine/                      # Engine entry layer
-│   │   ├── EngineMain.java          #   CLI main entry point
+│   ├── EngineMain.java              # CLI main entry point
+│   ├── engine/                      # Engine core layer
 │   │   ├── EngineBuildRunner.java   #   Pipeline orchestration core
 │   │   ├── EngineConfig.java        #   Configuration class
 │   │   ├── EngineBuildCmd.java      #   CLI argument definitions (JCommander)
